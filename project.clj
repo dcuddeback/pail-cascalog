@@ -6,14 +6,18 @@
 
   :min-lein-version "2.0.0"
 
-  :dependencies [[org.clojure/clojure "1.5.1"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [cascalog/cascalog-core "1.10.1"]
+                 [com.backtype/dfs-datastores "1.3.4"]
+                 [com.backtype/dfs-datastores-cascading "1.3.4" :exclusions [cascading/cascading-core
+                                                                             cascading/cascading-hadoop]]]
 
   :profiles {:1.3 {:dependencies [[org.clojure/clojure "1.3.0"]]}
              :1.4 {:dependencies [[org.clojure/clojure "1.4.0"]]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
              :1.6 {:dependencies [[org.clojure/clojure "1.6.0-master-SNAPSHOT"]]}
 
-             :provided {:dependencies [[org.slf4j/slf4j-log4j12 "1.5.2"]]}
+             :provided {:dependencies [[org.slf4j/slf4j-log4j12 "1.7.4"]]}
 
              :dev {:dependencies [[midje "1.5.1"]]
                    :plugins [[lein-midje "3.0.1"]]}
