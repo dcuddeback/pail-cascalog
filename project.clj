@@ -7,7 +7,7 @@
   :min-lein-version "2.0.0"
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [cascalog/cascalog-core "1.10.1"]
+                 [cascalog/cascalog-core "1.10.1" :exclusions [org.slf4j/slf4j-log4j12]]
                  [com.backtype/dfs-datastores "1.3.4"]
                  [com.backtype/dfs-datastores-cascading "1.3.4" :exclusions [cascading/cascading-core
                                                                              cascading/cascading-hadoop]]]
