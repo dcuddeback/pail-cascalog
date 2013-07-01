@@ -1,8 +1,9 @@
 (ns pail-cascalog.core-test
-  (:require [pail-cascalog.core :as pail])
+  (:require [pail-cascalog.core :as pail]
+            [clojure.java.shell :as shell])
   (:use midje.sweet)
-  (:import (com.backtype.hadoop.pail PailStructure PailSpec PailPathLister)
-           (com.backtype.cascading.tap PailTap$PailTapOptions)
+  (:import (com.backtype.hadoop.pail Pail PailStructure PailSpec PailPathLister)
+           (com.backtype.cascading.tap PailTap PailTap$PailTapOptions)
            (org.apache.hadoop.fs Path)))
 
 
@@ -52,3 +53,21 @@
       (.. (pail/tap options-foo "foo/bar") getScheme getSpec) => spec
       (.. (pail/tap options-foo "foo/bar") getScheme getSourceFields (get 1)) => "foo"
       (.. (pail/tap options-bar "foo/bar") getScheme getSourceFields (get 1)) => "bar")))
+
+
+(let [tmp-path "tmp/test"]
+  (with-state-changes [(before :contents (shell/sh "rm" "-rf" tmp-path))
+                       (after :contents (shell/sh "rm" "-rf" tmp-path))]
+    (facts "pail->tap"
+      (let [pail-path (str tmp-path "/pail")
+            spec (PailSpec.)
+            pail (Pail/create pail-path spec)
+            tap (pail/pail->tap pail)]
+
+        tap => (instance-of PailTap)
+
+        (fact "creates a PailTap at the Pail's root path"
+          (.getPath tap) => (Path. pail-path))
+
+        (fact "creates a PailTap with the Pail's PailSpec"
+          (.. tap getScheme getSpec) => (.getSpec pail))))))

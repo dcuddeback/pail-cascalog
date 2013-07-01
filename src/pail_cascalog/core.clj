@@ -39,3 +39,13 @@
   function for creating taps with the same behavior at different paths."
   [options path]
   (PailTap. path options))
+
+
+(defn pail->tap
+  "Creates a `PailTap` from an existing `Pail`. The tap will source data from `pail` and can be
+  customized with the same options as the `tap-options` function."
+  [pail & opts]
+  (let [spec (.getSpec pail)
+        path (.getRoot pail)]
+    (-> (apply tap-options spec opts)
+      (tap path))))
