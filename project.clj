@@ -1,4 +1,4 @@
-(defproject pail-cascalog "0.1.0"
+(defproject pail-cascalog "0.1.1-SNAPSHOT"
   :description "Utilties for working with Pail in Cascalog."
   :url "https://github.com/dcuddeback/pail-cascalog"
   :license {:name "MIT License"
